@@ -1,29 +1,23 @@
 import { TestBed } from '@angular/core/testing';
+import { MockBuilder, MockRender, ngMocks } from 'ng-mocks';
 import { AppComponent } from './app.component';
+import { TodoListService } from './todo-list.service';
+
+ngMocks.autoSpy('jasmine');
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
+  let component: AppComponent;
+
+  beforeEach(() => MockBuilder(AppComponent));
+
+  beforeEach(() => {
+    component = MockRender(AppComponent).componentInstance;
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+  it('should call call todoListService.someMethod', () => {
+    const todoListService = TestBed.inject(TodoListService);
 
-  it(`should have the 'ng-mocks-inject-demo' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('ng-mocks-inject-demo');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ng-mocks-inject-demo');
+    component.someMethod();
+    expect(todoListService.someMethod).toHaveBeenCalled();
   });
 });

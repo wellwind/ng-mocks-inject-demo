@@ -1,13 +1,19 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { TodoListService } from './todo-list.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  template: ``,
 })
 export class AppComponent {
-  title = 'ng-mocks-inject-demo';
+  // can not be auto spied
+  public todoListService = inject(TodoListService);
+
+  // can be auto spied
+  // constructor(private todoListService: TodoListService) {}
+
+  someMethod() {
+    this.todoListService.someMethod();
+  }
 }
